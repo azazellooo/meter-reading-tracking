@@ -13,10 +13,21 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class MeterSerializer(serializers.ModelSerializer):
+    history = serializers.SlugRelatedField(
+        many=True,
+        read_only=True,
+        slug_field='id'
+    )
 
     class Meta:
         model = Meter
-        fields = ('id', 'name', 'person', 'current_meter_reading')
+        fields = ('id', 'name', 'person', 'current_meter_reading', 'history')
         read_only_fields = ('id', 'person')
 
+
+class HistorySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = History
+        fields = ['date', 'meter', 'meter_reading', 'consumption', 'type']
 
