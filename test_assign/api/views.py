@@ -46,7 +46,7 @@ class MeterDetail(RetrieveUpdateDestroyAPIView):
         meter = self.get_object()
         serializer = MeterSerializer(data=request.data)
         if serializer.is_valid():
-            meter.person = User.objects.first()
+            meter.person = request.user
             serializer.update(instance=meter, validated_data=request.data)
             return Response(status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
